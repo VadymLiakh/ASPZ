@@ -28,4 +28,4 @@
 ## Код
 
 ```markdown
-- [`lab1.c`](./lab1.c)
+- [lab1.c](./lab1.c)

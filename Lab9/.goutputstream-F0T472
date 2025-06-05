@@ -1,0 +1,13 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+
+int main() {
+    printf("Результат getuid(): %d\n", getuid());
+    printf("Результат geteuid(): %d\n", geteuid());
+
+    printf("\nВиконання команди id з C:\n");
+    system("id");
+
+    return 0;
+}

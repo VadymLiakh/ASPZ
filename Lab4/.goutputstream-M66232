@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define BLOCK_COUNT 10000
+#define BLOCK_SIZE  1024  // 1 KB
+
+int main() {
+    void* blocks[BLOCK_COUNT];
+    srand(time(NULL));
+
+    //Виділяємо багато дрібних блоків
+    for (int i = 0; i < BLOCK_COUNT; ++i) {
+        blocks[i] = malloc(BLOCK_SIZE);
+        if (!blocks[i]) {
+            printf("malloc failed at block %d\n", i);
+            return 1;
+        }
+    }
+
+    //Випадково звільняємо приблизно половину
+    for (int i = 0; i < BLOCK_COUNT; ++i) {
+        if (rand() % 2 == 0) {
+            free(blocks[i]);
+            blocks[i] = NULL;
+        }
+    }
+
+    //Спроба виділити великий блок (1000 * BLOCK_SIZE)
+    void* big_block = malloc(BLOCK_COUNT * BLOCK_SIZE / 2);
+    if (big_block) {
+        printf("Successfully allocated large block despite fragmentation.\n");
+        free(big_block);
+    } else {
+        printf("Failed to allocate large block — likely due to fragmentation.\n");
+    }
+
+    // Прибирання
+    for (int i = 0; i < BLOCK_COUNT; ++i) {
+        if (blocks[i]) {
+            free(blocks[i]);
+        }
+    }
+
+    return 0;
+}
